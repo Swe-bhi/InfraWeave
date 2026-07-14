@@ -1,0 +1,23 @@
+import os
+import psycopg2
+
+conn = psycopg2.connect(
+    dbname=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host=os.getenv("DB_HOST")
+)
+
+cur = conn.cursor()
+cur.execute("SELECT * FROM users;")
+rows = cur.fetchall()
+
+print("Connected to PostgreSQL!")
+print("Users table content:")
+for row in rows:
+    print(row)
+
+cur.close()
+conn.close()
+
+

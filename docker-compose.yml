@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: demo_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: swetha123
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: /home/swetha/docker-python-demo
+      dockerfile: Dockerfile
+    container_name: python_app
+    depends_on:
+      - db
+    environment:
+      DB_NAME: demo_db
+      DB_USER: postgres
+      DB_PASSWORD: swetha123
+      DB_HOST: db
+    ports:
+      - "8000:8000"
+
+volumes:
+  db_data:
+
